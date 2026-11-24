@@ -1,0 +1,268 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --ink: #050608;
+  --line: rgba(255, 255, 255, 0.08);
+}
+
+@layer base {
+  html {
+    background: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-ink font-sans text-silver;
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: rgba(106, 167, 255, 0.35);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid #6aa7ff;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  img {
+    @apply select-none;
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply font-display text-[11px] font-semibold uppercase tracking-ultra text-mist;
+  }
+  .h-display {
+    @apply font-display font-extralight uppercase leading-[0.95] tracking-[0.04em] text-white;
+  }
+  .section-pad {
+    @apply px-5 sm:px-8 lg:px-16;
+  }
+  .hairline {
+    @apply border-white/[0.08];
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-3 rounded-full px-7 py-3.5 font-display text-[12px] font-semibold uppercase tracking-[0.22em] transition duration-300 disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-primary {
+    @apply btn bg-white text-ink hover:bg-signal hover:text-white;
+  }
+  .btn-ghost {
+    @apply btn border border-white/20 text-white hover:border-white/60 hover:bg-white/5;
+  }
+  .glass-panel {
+    @apply rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-xl;
+  }
+  .field {
+    @apply w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-mist/60 transition focus:border-signal/60 focus:bg-white/[0.05] focus:outline-none;
+  }
+}
+
+/* ── Smooth scroll wrapper ── */
+#smooth-wrapper {
+  overflow: hidden;
+}
+
+/* ── 3D car ── */
+.car-stage {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+  user-select: none;
+}
+.car-scene {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.car-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+  transition: opacity 0.45s ease, filter 0.45s ease;
+  pointer-events: none;
+}
+.car-layer svg {
+  display: block;
+  overflow: visible;
+}
+.has-selection .car-layer.is-part:not(.is-selected) {
+  opacity: 0.28;
+}
+.car-layer.is-selected {
+  filter: drop-shadow(0 0 14px rgba(106, 167, 255, 0.55)) brightness(1.15);
+}
+
+.hotspot {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.with-hotspots[data-exploded='true'] .hotspot {
+  opacity: 1;
+  pointer-events: auto;
+}
+.hotspot-ring {
+  position: absolute;
+  left: -16px;
+  top: -16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  background: rgba(106, 167, 255, 0.35);
+  box-shadow: 0 0 0 0 rgba(106, 167, 255, 0.6);
+  animation: hotspotPulse 2.2s infinite;
+  cursor: pointer;
+}
+.hotspot-ring::after {
+  content: '';
+  position: absolute;
+  inset: 9px;
+  border-radius: 999px;
+  background: #fff;
+}
+.hotspot.is-active .hotspot-ring {
+  background: #6aa7ff;
+  transform: scale(1.2);
+}
+.hotspot-label {
+  position: absolute;
+  left: 24px;
+  top: -14px;
+  white-space: nowrap;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(5, 6, 8, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font: 600 13px/1.4 Manrope, sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all 0.25s ease;
+}
+.hotspot:hover .hotspot-label,
+.hotspot:focus-visible .hotspot-label,
+.hotspot.is-active .hotspot-label {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes hotspotPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(106, 167, 255, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 16px rgba(106, 167, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(106, 167, 255, 0);
+  }
+}
+
+/* ── Interior hotspots ── */
+.ihot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+/* ── Utility animations ── */
+@keyframes sweep {
+  0% {
+    transform: translateX(-60%) rotate(8deg);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(60%) rotate(8deg);
+    opacity: 0;
+  }
+}
+.light-sweep {
+  animation: sweep 7s cubic-bezier(0.6, 0, 0.3, 1) infinite;
+}
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(-4%, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4%, -2%, 0) scale(1.08);
+  }
+}
+.glow-drift {
+  animation: drift 14s ease-in-out infinite;
+}
+@keyframes scrollcue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(220%);
+  }
+}
+.scroll-cue::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 40%;
+  background: linear-gradient(to bottom, transparent, #fff);
+  animation: scrollcue 2s cubic-bezier(0.6, 0, 0.3, 1) infinite;
+}
+
+.split-line {
+  display: block;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
