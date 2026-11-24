@@ -3,6 +3,7 @@ import { Plus } from 'lucide-react';
 import { INTERIOR_SCENES } from '../../config/interior';
 import { gsap, prefersReducedMotion } from '../../lib/gsap';
 import { InteriorArt } from './InteriorArt';
+import { asset } from '../../lib/asset';
 
 const N = INTERIOR_SCENES.length;
 
@@ -76,7 +77,7 @@ export function Interior() {
             <article key={s.key}>
               <div className="aspect-[16/10] overflow-hidden rounded-2xl border border-white/10">
                 {s.image ? (
-                  <img src={s.image} alt={s.title} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                  <img src={asset(s.image)} alt={s.title} loading="lazy" decoding="async" className="h-full w-full object-cover" />
                 ) : (
                   <InteriorArt name={s.key} />
                 )}
@@ -159,7 +160,7 @@ export function Interior() {
             >
               <div data-scene-media className="absolute inset-0 will-change-transform">
                 {s.image ? (
-                  <img src={s.image} alt={`${s.title} of the Mondeo MK4 Estate`} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                  <img src={asset(s.image)} alt={`${s.title} of the Mondeo MK4 Estate`} loading="lazy" decoding="async" className="h-full w-full object-cover" />
                 ) : (
                   <InteriorArt name={s.key} />
                 )}

@@ -11,6 +11,17 @@ npm run build    # production build in dist/
 npm run preview  # serve the production build
 ```
 
+## Publish on GitHub Pages
+
+A workflow (`.github/workflows/deploy.yml`) builds and publishes the site automatically.
+
+1. On GitHub, go to **Settings → Pages** and set **Source** to **GitHub Actions** (one time only).
+2. Merge this branch into `main`. Every push to `main` then deploys the site.
+   You can also start a deploy by hand from **Actions → Deploy to GitHub Pages → Run workflow**.
+3. The site appears at `https://<your-username>.github.io/<repo-name>/`.
+
+Photo paths such as `/images/exterior/front.jpg` work under that address automatically.
+
 ## What the seller edits
 
 | What | Where |

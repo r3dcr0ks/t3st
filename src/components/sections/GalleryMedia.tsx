@@ -1,6 +1,7 @@
 import type { GalleryItem } from '../../config/gallery';
 import { CarModel } from '../car/CarModel';
 import { InteriorArt } from './InteriorArt';
+import { asset } from '../../lib/asset';
 
 const TONES = {
   studio: 'bg-[radial-gradient(ellipse_70%_60%_at_50%_60%,#1e3563_0%,#0a0e16_55%,#050608_100%)]',
@@ -13,7 +14,7 @@ export function GalleryMedia({ item, size = 'full' }: { item: GalleryItem; size?
   if (item.src) {
     return (
       <img
-        src={item.src}
+        src={asset(item.src)}
         alt={item.alt}
         loading={size === 'thumb' ? 'lazy' : 'eager'}
         decoding="async"
